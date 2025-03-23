@@ -1,0 +1,126 @@
+.game-field {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  background-color: #000;
+  border: 2px solid #333;
+  border-radius: 5px;
+  margin: 0 auto;
+  max-width: 800px;
+  min-height: 500px;
+  contain: content; /* パフォーマンス最適化 */
+  will-change: transform; /* GPU高速化 */
+}
+
+.scroll-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(to bottom, #000 0%, #111 100%);
+  background-size: 100px 100px;
+  background-image: 
+    radial-gradient(circle, #fff 1px, transparent 1px),
+    radial-gradient(circle, #fff 1px, transparent 1px);
+  background-position: 0 0, 50px 50px;
+  z-index: 1;
+  will-change: background-position; /* 背景アニメーション最適化 */
+}
+
+.player {
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+  transform: translateZ(0); /* GPU高速化 */
+  will-change: transform, opacity; /* アニメーション最適化 */
+}
+
+.player.invulnerable {
+  animation: blink 0.2s infinite alternate;
+}
+
+/* 弾のスタイル */
+.bullet {
+  position: absolute;
+  background-color: #f1c40f;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #f39c12;
+  z-index: 8;
+  animation: glow 0.5s infinite alternate;
+  transform: translateZ(0); /* GPU高速化 */
+}
+
+.enemy {
+  transform: rotate(180deg) translateZ(0); /* GPU高速化を追加 */
+  will-change: transform, opacity; /* アニメーション最適化 */
+}
+
+.powerup {
+  transition: transform 0.2s;
+  transform: translateZ(0); /* GPU高速化 */
+  will-change: transform; /* アニメーション最適化 */
+}
+
+.powerup:hover {
+  transform: scale(1.1) translateZ(0);
+}
+
+.stage-clear {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s;
+  z-index: 100;
+}
+
+/* パフォーマンス最適化されたアニメーション */
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #f39c12;
+  }
+  to {
+    box-shadow: 0 0 15px #f1c40f;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1) translateZ(0);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.1) translateZ(0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+  .game-field {
+    height: 400px;
+  }
+}
